@@ -1,0 +1,17 @@
+{
+    "name": "T02Game.Common.Manager",
+    "rootNamespace": "",
+    "references": [
+        "GUID:167a9c3e16ab6544080f9d8ef16b4dff",
+        "GUID:df91b6cc4ec5c764e91218d809393cbe"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

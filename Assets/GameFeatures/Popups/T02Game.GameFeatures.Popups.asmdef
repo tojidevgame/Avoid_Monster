@@ -1,0 +1,17 @@
+{
+    "name": "T02Game.GameFeatures.Popups",
+    "rootNamespace": "",
+    "references": [
+        "GUID:375a2b2d1d3bd46ba98f8cd67b6afde6",
+        "GUID:df91b6cc4ec5c764e91218d809393cbe"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

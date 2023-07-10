@@ -1,0 +1,16 @@
+{
+    "name": "T02Game.Gameplay.Character",
+    "rootNamespace": "",
+    "references": [
+        "GUID:df91b6cc4ec5c764e91218d809393cbe"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

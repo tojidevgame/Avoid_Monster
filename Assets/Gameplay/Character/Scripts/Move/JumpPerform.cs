@@ -1,0 +1,63 @@
+using UnityEngine;
+
+public class JumpPerform : MonoBehaviour
+{
+    [SerializeField] protected JumpConfigs jumpData;
+
+    [Space(10), Header("Check")]
+    [SerializeField] protected Transform groundCheck;
+
+    protected MoveInput moveInput;
+    protected Rigidbody2D rigidBody2D;
+
+    protected int extraJumps;
+    protected float extraJumpHeight;
+
+    protected float velocity = 0;
+
+    protected virtual void Awake()
+    {
+        rigidBody2D = GetComponent<Rigidbody2D>();
+        moveInput = GetComponent<MoveInput>();
+    }
+
+    protected virtual void Start()
+    {
+        extraJumpHeight = jumpData.JumpHeight * jumpData.ExtraJumpHeightMulti;
+    }
+
+    protected virtual void Update()
+    {
+        bool previousCheckGrounded = jumpData.IsGrounded;
+        // check if grounded
+        jumpData.IsGrounded = Physics2D.OverlapCircle(groundCheck.position, jumpData.GroundCheckRadius, jumpData.GroundLayer);
+
+        // Neu vua moi cham dat
+        if(!previousCheckGrounded && jumpData.IsGrounded) 
+        {
+            jumpData.onEndJump?.Invoke();
+        }
+
+        if (jumpData.IsGrounded)
+        {
+            extraJumps = jumpData.ExtraJumpCount;
+        }
+
+        // Extra jump
+        if (moveInput.JumpInput && extraJumps > 0 && !jumpData.IsGrounded)
+        {
+            float velocity = Mathf.Sqrt(-2.0f * Physics2D.gravity.y * jumpData.JumpHeight * jumpData.GravityScale);
+            rigidBody2D.gravityScale = jumpData.GravityScale;
+            rigidBody2D.velocity = new Vector2(rigidBody2D.velocity.x, velocity);
+            extraJumps--;
+        }
+        else if (moveInput.JumpInput && jumpData.IsGrounded)  // Normal jump
+        {
+            float velocity = Mathf.Sqrt(-2.0f * Physics2D.gravity.y * jumpData.JumpHeight * jumpData.GravityScale);
+            rigidBody2D.gravityScale = jumpData.GravityScale;
+            rigidBody2D.velocity = new Vector2(rigidBody2D.velocity.x, velocity);
+            jumpData.onStartJump?.Invoke();
+        }
+
+    }
+}
