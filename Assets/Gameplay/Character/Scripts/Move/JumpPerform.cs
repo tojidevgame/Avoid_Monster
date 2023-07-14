@@ -24,6 +24,7 @@ public class JumpPerform : MonoBehaviour
     protected virtual void Start()
     {
         extraJumpHeight = jumpData.JumpHeight * jumpData.ExtraJumpHeightMulti;
+        rigidBody2D.gravityScale = jumpData.GravityScale;
     }
 
     protected virtual void Update()
@@ -47,14 +48,12 @@ public class JumpPerform : MonoBehaviour
         if (moveInput.JumpInput && extraJumps > 0 && !jumpData.IsGrounded)
         {
             float velocity = Mathf.Sqrt(-2.0f * Physics2D.gravity.y * jumpData.JumpHeight * jumpData.GravityScale);
-            rigidBody2D.gravityScale = jumpData.GravityScale;
             rigidBody2D.velocity = new Vector2(rigidBody2D.velocity.x, velocity);
             extraJumps--;
         }
         else if (moveInput.JumpInput && jumpData.IsGrounded)  // Normal jump
         {
             float velocity = Mathf.Sqrt(-2.0f * Physics2D.gravity.y * jumpData.JumpHeight * jumpData.GravityScale);
-            rigidBody2D.gravityScale = jumpData.GravityScale;
             rigidBody2D.velocity = new Vector2(rigidBody2D.velocity.x, velocity);
             jumpData.onStartJump?.Invoke();
         }

@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be27227bdf5a8dc4d90c86f33376e008, type: 3}
   m_Name: JumpConfig
   m_EditorClassIdentifier: 
-  jumpHeight: 6
+  jumpHeight: 12
   extraJumpHeightMulti: 0.6
   gravityScale: 12
   groundCheckRadius: 0.1
   groundLayer:
     serializedVersion: 2
-    m_Bits: 64
-  extraJumpCount: 1
+    m_Bits: 128
+  extraJumpCount: 0
   canMoveWhenJump: 1

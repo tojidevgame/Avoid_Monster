@@ -6,7 +6,7 @@ public class HomeManager : MonoSingleton<HomeManager>
 {
     void Start()
     {
-        PopupsManager.Instance.ShowPopup(PopupType.Main);
+        //PopupsManager.Instance.ShowPopup(PopupType.Main);
     }
 
     private void Update()

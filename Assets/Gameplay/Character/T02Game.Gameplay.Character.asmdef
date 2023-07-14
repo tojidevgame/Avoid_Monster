@@ -2,7 +2,8 @@
     "name": "T02Game.Gameplay.Character",
     "rootNamespace": "",
     "references": [
-        "GUID:df91b6cc4ec5c764e91218d809393cbe"
+        "GUID:df91b6cc4ec5c764e91218d809393cbe",
+        "GUID:5281c9da23684e14484a82f8879e7aa8"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -8,7 +8,7 @@ public class EnemyJumpPerform : JumpPerform
     EnemyDataManagement dataManagement;
 
     private bool isDoneLoadData = false;
-    protected override async void Start()
+    protected override async void Awake()
     {
         isDoneLoadData = false;
 
@@ -24,7 +24,14 @@ public class EnemyJumpPerform : JumpPerform
         base.Awake();
 
         jumpData = dataManagement.JumpData;
+
         isDoneLoadData = true;
+    }
+
+    protected override async void Start()
+    {
+        await UniTask.WaitUntil(() => isDoneLoadData);
+        base.Start();
     }
 
     protected override void Update()

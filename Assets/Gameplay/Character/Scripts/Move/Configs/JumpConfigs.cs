@@ -7,13 +7,18 @@ public class JumpConfigs : ScriptableObject
     [HideInInspector] public Action onStartJump;
     [HideInInspector] public Action onEndJump;
 
-    [SerializeField] protected float jumpHeight;
-    [SerializeField] protected float extraJumpHeightMulti;
-    [SerializeField] protected float gravityScale;
-    [SerializeField] protected float groundCheckRadius;
+    [SerializeField] protected float jumpHeight = 12;
+    [SerializeField] protected float extraJumpHeightMulti = 0.6f;
+    [SerializeField] protected float gravityScale = 12;
+    [SerializeField] protected float groundCheckRadius = 0.1f;
     [SerializeField] protected LayerMask groundLayer;
-    [SerializeField] protected int extraJumpCount = 1;
-    [SerializeField] protected bool canMoveWhenJump = true;
+    [SerializeField] protected int extraJumpCount = 0;
+    [SerializeField] protected bool canMoveWhenJump = false;
+
+    private void OnEnable()
+    {
+        groundLayer = 1 << LayerMask.NameToLayer("Ground");
+    }
 
     private bool isGrounded = true;
     public bool IsGrounded { get => isGrounded; set => isGrounded = value; }

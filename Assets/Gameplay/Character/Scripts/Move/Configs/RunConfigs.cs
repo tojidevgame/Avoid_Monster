@@ -11,7 +11,7 @@ public class RunConfigs : ScriptableObject
     [HideInInspector] public Action onRunning;
     [HideInInspector] public Action onStopRun;
 
-    [SerializeField] private float speed;
+    [SerializeField] private float speed = 400;
 
     private bool isFacingRight;
     public bool IsFacingRight { get { return isFacingRight; } set { isFacingRight = value; } }
