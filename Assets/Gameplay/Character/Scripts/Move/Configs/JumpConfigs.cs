@@ -30,4 +30,10 @@ public class JumpConfigs : ScriptableObject
     public LayerMask GroundLayer { get { return groundLayer; } }
     public int ExtraJumpCount { get { return extraJumpCount; } }
     public bool CanMoveWhenJump { get {  return canMoveWhenJump; } }
+
+    public void ClearAllAction()
+    {
+        onStartJump = null;
+        onEndJump = null;
+    }
 }

@@ -12,7 +12,6 @@ public class EnemyJumpPerform : JumpPerform
     {
         isDoneLoadData = false;
 
-        EnemyDataManagement dataManagement = GetComponent<EnemyDataManagement>();
         dataManagement = GetComponent<EnemyDataManagement>();
         if (dataManagement == null)
         {

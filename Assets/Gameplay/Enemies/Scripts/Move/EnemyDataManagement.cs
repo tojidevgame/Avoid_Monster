@@ -1,10 +1,17 @@
+using Cysharp.Threading.Tasks;
+using System;
 using UnityEngine;
 
 public class EnemyDataManagement : MonoBehaviour
 {
-    [SerializeField] protected RunConfigs runData;
-    [SerializeField] protected JumpConfigs jumpData;
-    [SerializeField] protected DashConfigs dashData;
+    [Header("Origin")]
+    [SerializeField] private RunConfigs originalRunConfig;
+    [SerializeField] private JumpConfigs originalJumpConfig;
+    [SerializeField] private DashConfigs originalDashConfig;
+
+    protected RunConfigs runData;
+    protected JumpConfigs jumpData;
+    protected DashConfigs dashData;
 
     public RunConfigs RunData { get { return runData; } }
     public JumpConfigs JumpData { get { return jumpData; } }
@@ -19,10 +26,22 @@ public class EnemyDataManagement : MonoBehaviour
     {
         isDoneInit = false;
 
-        runData = ScriptableObject.CreateInstance<RunConfigs>();
-        jumpData = ScriptableObject.CreateInstance<JumpConfigs>();
-        dashData = ScriptableObject.CreateInstance<DashConfigs>();
+        runData = Instantiate(originalRunConfig) as RunConfigs;
+        jumpData = Instantiate(originalJumpConfig) as JumpConfigs;
+        dashData = Instantiate(originalDashConfig) as DashConfigs;
 
         isDoneInit = true;
+    }
+
+    public async void RegisterOnStartJump(Action onStartJumpAction)
+    {
+        await UniTask.WaitUntil(() => jumpData != null);
+        jumpData.onStartJump += onStartJumpAction;
+    }
+
+    private void OnDestroy()
+    {
+        jumpData.ClearAllAction();
+        runData.ClearAllAction();
     }
 }
