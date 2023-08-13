@@ -14,35 +14,35 @@ public enum ColorLog
 public class ConsoleLog 
 {
     [Conditional("ALL_LOG")]
-    public static void LogColor(string message, ColorLog color = ColorLog.WHITE)
+    public static void LogColor(object message, ColorLog color = ColorLog.WHITE)
     {
         string colorStr = GetColorString(color);
 #if ALL_LOG
-        UnityEngine.Debug.Log($"<color={colorStr}>{message}</color>");
+        UnityEngine.Debug.Log($"<color={colorStr}>{message.ToString()}</color>");
 #endif
     }
 
     [Conditional("ALL_LOG")]
-    public static void Log(string message)
+    public static void Log(object message)
     {
 #if ALL_LOG
-        UnityEngine.Debug.Log(message);
+        UnityEngine.Debug.Log(message.ToString());
 #endif
     }
 
     [Conditional("ALL_LOG")]
-    public static void LogError(string message)
+    public static void LogError(object message)
     {
 #if ALL_LOG
-        UnityEngine.Debug.LogError(message);
+        UnityEngine.Debug.LogError(message.ToString());
 #endif
     }
 
     [Conditional("ALL_LOG")]
-    public static void LogWarning(string message)
+    public static void LogWarning(object message)
     {
 #if ALL_LOG
-        UnityEngine.Debug.LogWarning(message);
+        UnityEngine.Debug.LogWarning(message.ToString());
 #endif
     }
 

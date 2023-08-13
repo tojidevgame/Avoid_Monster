@@ -29,19 +29,18 @@ public class JumpPerform : MonoBehaviour
 
     protected virtual void Update()
     {
-        bool previousCheckGrounded = jumpData.IsGrounded;
+        bool previousStatus = jumpData.IsGrounded;
         // check if grounded
         jumpData.IsGrounded = Physics2D.OverlapCircle(groundCheck.position, jumpData.GroundCheckRadius, jumpData.GroundLayer);
-
-        // Neu vua moi cham dat
-        if(!previousCheckGrounded && jumpData.IsGrounded) 
-        {
-            jumpData.onEndJump?.Invoke();
-        }
 
         if (jumpData.IsGrounded)
         {
             extraJumps = jumpData.ExtraJumpCount;
+        }
+
+        if(!previousStatus && jumpData.IsGrounded)
+        {
+            jumpData.onEndJump?.Invoke();
         }
 
         // Extra jump

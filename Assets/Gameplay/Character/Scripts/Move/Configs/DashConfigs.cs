@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "DashConfig", menuName = "CharacterController/Dash", order = 1)]
+[CreateAssetMenu(fileName = "DashConfig", menuName = "Avoid_Monster/Config/CharacterController/Dash", order = 1)]
 public class DashConfigs : ScriptableObject
 {
     [HideInInspector] public Action onStartDash;

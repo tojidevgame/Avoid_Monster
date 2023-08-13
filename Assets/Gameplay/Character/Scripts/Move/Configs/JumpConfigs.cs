@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "JumpConfig", menuName = "CharacterController/Jump", order = 1)]
+[CreateAssetMenu(fileName = "JumpConfig", menuName = "Avoid_Monster/Config/CharacterController/Jump", order = 1)]
 public class JumpConfigs : ScriptableObject
 {
     [HideInInspector] public Action onStartJump;

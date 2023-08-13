@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "WallJump", menuName = "CharacterController/WallJump", order = 1)]
+[CreateAssetMenu(fileName = "WallJump", menuName = "Avoid_Monster/Config/CharacterController/WallJump", order = 1)]
 public class WallJumpConfigs : ScriptableObject
 {
 

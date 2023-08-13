@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "RunConfig", menuName = "CharacterController/Run", order = 1)]
+[CreateAssetMenu(fileName = "RunConfig", menuName = "Avoid_Monster/Config/CharacterController/Run", order = 1)]
 public class RunConfigs : ScriptableObject
 {
 

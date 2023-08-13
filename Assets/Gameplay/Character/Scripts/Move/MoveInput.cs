@@ -25,6 +25,6 @@ public class MoveInput : MonoBehaviour
 
         jumpInput = Input.GetButtonDown("Jump");
 
-        dashInput = Input.GetKeyDown(KeyCode.X);
+        dashInput = Input.GetKeyDown(KeyCode.K);
     }
 }

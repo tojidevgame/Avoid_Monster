@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3384b49b8ed4d84baa75f5c3a4003f9, type: 3}
+  m_Name: GameObjectPools
+  m_EditorClassIdentifier: 
+  poolData:
+  - Key: pool_enemy_key
+    Prefab: {fileID: 8173337385057390983, guid: 59dd4a52883837547bf9a3375a18263d, type: 3}
+    Prewarms: 15
