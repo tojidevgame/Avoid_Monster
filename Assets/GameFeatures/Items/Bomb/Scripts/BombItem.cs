@@ -1,4 +1,3 @@
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class BombItem : ItemBase
@@ -24,7 +23,6 @@ public class BombItem : ItemBase
         countDownTime -= Time.deltaTime;
         if(countDownTime <= 0)
         {
-            // Get position of the first enemy 
             Explode();
 
             DestroyItem();
@@ -43,7 +41,6 @@ public class BombItem : ItemBase
     protected override void DestroyItem()
     {
         ResetData();
-
     }
 
     protected override void ResetData()

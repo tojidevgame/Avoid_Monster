@@ -1,16 +1,28 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PoolsManager : MonoSingleton<PoolsManager>
 {
-    [Header("Game Object Pools")]
-    [SerializeField] private GameObjectPools goPools;
-    [SerializeField] private Transform goPoolRoot;
+    [Serializable]
+    protected struct PoolSpawn
+    {
+        public BasePool pool;
+        public Transform poolRoot;
+    }
+
+    [SerializeField] private List<PoolSpawn> spawnList;
+
 
     public static bool IsDoneInit = false;
     protected override void Awake()
     {
         base.Awake();
-        goPools.Prewarm(goPoolRoot);
+
+        foreach (var poolSpawn in spawnList)
+        {
+            poolSpawn.pool.Prewarm(poolSpawn.poolRoot);
+        }
 
         IsDoneInit = true;
     }

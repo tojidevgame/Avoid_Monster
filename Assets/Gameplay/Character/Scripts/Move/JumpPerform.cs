@@ -3,6 +3,7 @@ using UnityEngine;
 public class JumpPerform : MonoBehaviour
 {
     [SerializeField] protected JumpConfigs jumpData;
+    [SerializeField] protected RunConfigs runData;
 
     [Space(10), Header("Check")]
     [SerializeField] protected Transform groundCheck;
@@ -46,13 +47,13 @@ public class JumpPerform : MonoBehaviour
         // Extra jump
         if (moveInput.JumpInput && extraJumps > 0 && !jumpData.IsGrounded)
         {
-            float velocity = Mathf.Sqrt(-2.0f * Physics2D.gravity.y * jumpData.JumpHeight * jumpData.GravityScale);
+            float velocity = runData.Speed_X_WhenJump * Mathf.Sqrt(jumpData.GravityScale);
             rigidBody2D.velocity = new Vector2(rigidBody2D.velocity.x, velocity);
             extraJumps--;
         }
         else if (moveInput.JumpInput && jumpData.IsGrounded)  // Normal jump
         {
-            float velocity = Mathf.Sqrt(-2.0f * Physics2D.gravity.y * jumpData.JumpHeight * jumpData.GravityScale);
+            float velocity = runData.Speed_X_WhenJump * Mathf.Sqrt(jumpData.GravityScale);
             rigidBody2D.velocity = new Vector2(rigidBody2D.velocity.x, velocity);
             jumpData.onStartJump?.Invoke();
         }

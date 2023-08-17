@@ -23,7 +23,8 @@ public class RunPerform : MonoBehaviour
     protected virtual void FixedUpdate()
     {
         float moveAbility = (canMove ? 1 : 0) * (!jumpData.IsGrounded && !jumpData.CanMoveWhenJump?0:1);
-        float velocityX = moveAbility * slowMulti * moveInput.HorizontalInput * runData.Speed * Time.fixedDeltaTime;
+        float originSpeed = jumpData.IsGrounded ? runData.Speed : runData.Speed_X_WhenJump;
+        float velocityX = moveAbility * slowMulti * moveInput.HorizontalInput * originSpeed;
         if((jumpData.IsGrounded || jumpData.CanMoveWhenJump) && !dashData.IsDashing)
         {
             rigidBody2D.velocity = new Vector2(velocityX, rigidBody2D.velocity.y);

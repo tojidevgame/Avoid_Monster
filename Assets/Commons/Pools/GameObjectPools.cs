@@ -12,7 +12,7 @@ public struct PoolData
 }
 
 [CreateAssetMenu(fileName = "GameObjectPools", menuName = "Avoid_Monster/Config/Pools/GameObjectPools")]
-public class GameObjectPools : ScriptableObject
+public class GameObjectPools : BasePool
 {
     [SerializeField] private List<PoolData> poolData;
 
@@ -27,7 +27,9 @@ public class GameObjectPools : ScriptableObject
         }
         return null;
     }
-    public GameObject Rent(string key)
+
+
+    public override GameObject Rent(string key)
     {
         try
         {
@@ -47,20 +49,23 @@ public class GameObjectPools : ScriptableObject
             return null;
         }
     }
-    public void Return(string key, GameObject obj)
+
+    public override void Return(string key, object obj)
     {
         try
         {
             pools.TryGetValue(key, out var pool);
-            obj.SetActive(false);
-            pool.Enqueue(obj);
+            var go = (GameObject)obj;
+            go.SetActive(false);
+            pool.Enqueue(go);
         }
         catch (Exception e)
         {
             ConsoleLog.LogError($"Pool with key: {key} was not init" + e);
         }
     }
-    public void Prewarm(Transform parentRoot)
+
+    public override void Prewarm(Transform parentRoot)
     {
         if (pools == null)
             pools = new Dictionary<string, Queue<GameObject>>();

@@ -1,4 +1,3 @@
-
 using System;
 using UnityEngine;
 
@@ -49,6 +48,8 @@ public struct Difficulty
     public int MileStoneScore;
     public int MaxAmountEnemy;
     public int MaxAmountItem;
+    public int MinScoreToAddEnemy;
+    public int MaxScoreToAddEnemy;
 }
 
 

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "BombConfig", menuName = "Avoid_Monster/Config/Item/BombConfig")]
+[CreateAssetMenu(fileName = "BombConfig", menuName = "Avoid_Monster/Item/Config Item/BombConfig")]
 public class BombConfig : ScriptableObject
 {
     [SerializeField] private float timeToExpode = 1f;

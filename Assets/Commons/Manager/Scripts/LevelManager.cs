@@ -3,9 +3,10 @@ using UnityEngine;
 public class LevelManager : MonoSingleton<LevelManager>
 {
     [SerializeField] private Difficulties diffConfigs;
+    [SerializeField] private readonly int startScoreAddEnemy = 10;
 
 
-    private int nextMileScore;
+    private int mileStoneToAddEnemy;
 
     private Difficulty curDiff;
 
@@ -18,7 +19,18 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     private void ResetLevel()
     {
+        mileStoneToAddEnemy = startScoreAddEnemy;
         curDiff = diffConfigs.GetCurDifficulty(0);
-        nextMileScore = diffConfigs.MileStoneScoreNextDiff();
     }
+
+    public bool CanAddEnemy(int score)
+    {
+        if(score > mileStoneToAddEnemy)
+        {
+            mileStoneToAddEnemy += Random.Range(curDiff.MinScoreToAddEnemy, curDiff.MaxScoreToAddEnemy);
+            return true;
+        }
+        return false;
+    }
+
 }
