@@ -10,10 +10,6 @@ public class LoadGameController : MonoBehaviour
 
     private async void Start()
     {
-        await UniTask.WaitUntil(() => PoolsManager.IsAlive);
-
-        await UniTask.WaitUntil(() => PoolsManager.IsDoneInit);
-
         await UniTask.Delay(TimeSpan.FromSeconds(minTimeToChangeScene));
 
         SceneManager.LoadScene("Gameplay");

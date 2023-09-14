@@ -1,13 +1,12 @@
-
 using UnityEngine;
 
-public class ScoreManager : MonoSingleton<ScoreManager>
+public class ScoreManager : MonoBehaviour
 {
-    private int score;
-    private int highScore;
+    [SerializeField] private ScoreDataSO scoreDataSO;
 
     private void Start()
     {
-        highScore = PlayerPrefs.GetInt("HighScore", 0);
+        scoreDataSO.ResetScore();
+        scoreDataSO.HighScore = PlayerPrefs.GetInt("HighScore", 0);
     }
 }

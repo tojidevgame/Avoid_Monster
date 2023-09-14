@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PoolsManager : MonoSingleton<PoolsManager>
+public class PoolsManager : MonoBehaviour
 {
     [Serializable]
     protected struct PoolSpawn
@@ -15,10 +15,8 @@ public class PoolsManager : MonoSingleton<PoolsManager>
 
 
     public static bool IsDoneInit = false;
-    protected override void Awake()
+    protected void Awake()
     {
-        base.Awake();
-
         foreach (var poolSpawn in spawnList)
         {
             poolSpawn.pool.Prewarm(poolSpawn.poolRoot);

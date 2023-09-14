@@ -6,12 +6,18 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Logo.unity
+    guid: e07e228db504b1c4ca11d6093a04fbab
+  - enabled: 1
     path: Assets/Scenes/GamePlay.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
     path: Assets/Scenes/TestScene.unity
     guid: 23b3a45d2f5e77f449c1f1cf7c91e856
   - enabled: 1
-    path: Assets/Scenes/Logo.unity
-    guid: e07e228db504b1c4ca11d6093a04fbab
+    path: Assets/Scenes/Map.unity
+    guid: b89bf788ae9226747a6271d84284a818
+  - enabled: 1
+    path: Assets/Imported/Joystick Pack/Examples/Example Scene.unity
+    guid: 414bddd31c5ea4f4c9f5d1452e5bbb41
   m_configObjects: {}

@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class EnemyManager : MonoSingleton<EnemyManager>
 {
+    [SerializeField] private PlayerDataSO playerDataSO;
     [SerializeField] private int gapBetweenTwoIndex = 10;
     [SerializeField] private GameObjectPools enemyPool;
     [SerializeField] private GlobalData globalData;
@@ -12,7 +13,6 @@ public class EnemyManager : MonoSingleton<EnemyManager>
 
     private void CreateEnemy()
     {
-        MapManager map = MapManager.Instance;
         var enemyObj = enemyPool.Rent(globalData.ENEMY_KEY);
         EnemyFollow enemyFollow = enemyObj.GetComponent<EnemyFollow>();
 
@@ -21,12 +21,12 @@ public class EnemyManager : MonoSingleton<EnemyManager>
         if (enemies.Count > 0)
             newEnemyIndex = enemies[enemies.Count - 1].Index - gapBetweenTwoIndex;
         else
-            newEnemyIndex = map.CurrentPlayerIndex() - gapBetweenTwoIndex;
-        map.ClampEnemyIndex(ref newEnemyIndex);
+            newEnemyIndex = playerDataSO.CurrentPlayerIndex() - gapBetweenTwoIndex;
+        playerDataSO.ClampEnemyIndex(ref newEnemyIndex);
 
 
         enemyFollow.InitEnemy(newEnemyIndex);
-        enemyFollow.transform.position = map.PosAtIndex(ref newEnemyIndex);
+        enemyFollow.transform.position = playerDataSO.PosAtIndex(ref newEnemyIndex);
 
 
         enemyObj.SetActive(true);

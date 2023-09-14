@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3384b49b8ed4d84baa75f5c3a4003f9, type: 3}
+  m_Name: EffectPool
+  m_EditorClassIdentifier: 
+  poolData:
+  - Key: effect_shield_destroy
+    Prefab: {fileID: 8178649681852013516, guid: 62de735368b94f8448b0191facd6fd51, type: 3}
+    Prewarms: 1
+  - Key: effect_coin_destroy
+    Prefab: {fileID: 6357090958548597094, guid: 2f4c7f4bdad05d84ca1642cb699484bb, type: 3}
+    Prewarms: 1
+  defaultPrewarm: 2

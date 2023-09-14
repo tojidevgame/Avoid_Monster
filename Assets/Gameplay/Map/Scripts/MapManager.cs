@@ -1,43 +1,28 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class MapManager : MonoSingleton<MapManager>
+public class MapManager : MonoBehaviour
 {
-    [SerializeField] private PlayerInfo playerInfo;
-    [SerializeField] private float minDistanceToAddPos = 0.2f;
+    [Header("Data")]
+    [SerializeField] private PlayerDataSO playerDataSO;
+    [SerializeField] private MapDataSO mapDataSO;
 
-    private HistoryPlayerPosition historyPos;
+    [Space(12)]
+    [SerializeField] private PlayerInfo playerInfo;
+
+    [Space(12)]
+    [SerializeField] private List<ItemBoundPosition> itemPositionList;
 
     public Transform PlayerTransform { get { return playerInfo.transform; } }
 
     protected void Start()
     {
-        base.Awake();
-        historyPos = new HistoryPlayerPosition(minDistanceToAddPos, playerInfo.transform.position);
+        playerDataSO.InitData(playerInfo);
+        mapDataSO.InitData(itemPositionList);
     }
 
     private void FixedUpdate()
     {
-        historyPos.Add(playerInfo.transform.position);
-    }
-
-    public int CurrentPlayerIndex()
-    {
-        return historyPos.CurPlayerIndex;
-    }
-
-    public Vector2 PosAtIndex(ref int index)
-    {
-        return historyPos.PosAtIndex(ref index);
-    }
-
-    public Vector2 PosAtNextIndexOf(int curIndex)
-    {
-        return historyPos.PosAtNextIndexOf(curIndex);
-    }
-
-    public void ClampEnemyIndex(ref int curIndex)
-    {
-        if(curIndex < 0)
-            curIndex = historyPos.Capacity + curIndex;
+        playerDataSO.AddNewPosOfPlayer();
     }
 }

@@ -2,16 +2,12 @@ using UnityEngine;
 
 public class BombItem : ItemBase
 {
-    [SerializeField] private BombConfig bombConfig;
-    [SerializeField] private GlobalData globalData;
-
-    private bool isTrigger = false;
-    private float countDownTime;
+    private float countDownTimeExplode;
 
     public override void TriggerItem()
     {
         isTrigger = true;
-        countDownTime = bombConfig.TimeToExpode;
+        countDownTimeExplode = ((BombConfig)itemConfig).TimeToExpode;
     }
 
 
@@ -20,8 +16,8 @@ public class BombItem : ItemBase
         if (!isTrigger)
             return;
 
-        countDownTime -= Time.deltaTime;
-        if(countDownTime <= 0)
+        countDownTimeExplode -= Time.deltaTime;
+        if(countDownTimeExplode <= 0)
         {
             Explode();
 
@@ -32,13 +28,13 @@ public class BombItem : ItemBase
     private void Explode()
     {
         // Find what enemy will be kill
-        Physics2D.OverlapCircle(transform.position, bombConfig.RangeExplode, bombConfig.LayerImpact);
+        Physics2D.OverlapCircle(transform.position, ((BombConfig)itemConfig).RangeExplode, ((BombConfig)itemConfig).LayerImpact);
 
         // Trigger effect explode
         ConsoleLog.Log("Bomb Explore");
     }
 
-    protected override void DestroyItem()
+    public override void DestroyItem(bool playDestroyEffect = true)
     {
         ResetData();
     }

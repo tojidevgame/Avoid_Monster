@@ -1,47 +1,80 @@
+using SuperMaxim.Messaging;
 using UnityEngine;
 
 public class ShieldItem : ItemBase
 {
-    [SerializeField] private ShieldConfig shieldConfig;
-    [SerializeField] private GlobalData globalData;
-    [SerializeField] private GameObjectPools itemPool;
+    [SerializeField] private PlayerDataSO playerDataSO;
 
-    private bool isTrigger = false;
-    private float countDownTime;
+    [Space(12)]
+    [SerializeField] private GameObject shieldIconRender;
+    [SerializeField] private ParticleSystem shieldEffect;
+
+    [Space(12)]
+    [SerializeField] private BasePool effectPool;
+
+
+
+    private float countDownTimeRemain;
 
 
     private void Update()
     {
+        countDownTimeExist -= Time.deltaTime;
+
         if (!isTrigger)
-            return;
-
-        // TODO: Get player position to follow:
-        transform.position = MapManager.Instance.PlayerTransform.position;
-
-
-        countDownTime -= Time.deltaTime;
-        if (countDownTime <= 0)
         {
+            if(countDownTimeExist <= 0)
+            {
+                DestroyItem();
+            }
+            return;
+        }
 
+        // TODO: Get player position to follow: 
+        // Co the thay doi bang cach dua no vao item holder
+        gameObject.transform.position = playerDataSO.PlayerTransform.position;
+
+
+        countDownTimeRemain -= Time.deltaTime;
+        if (countDownTimeRemain <= 0)
+        {
             DestroyItem();
         }
     }
 
+    public override void SetupData(ItemBoundPosition itemBound)
+    {
+        base.SetupData(itemBound);
+        countDownTimeExist = itemConfig.TimeExists;
+        countDownTimeRemain = itemConfig.TimeRemain;
+
+        shieldIconRender.SetActive(true);
+        shieldEffect.gameObject.SetActive(false);
+        anim?.PlayAnim();
+    }
 
     public override void TriggerItem()
     {
+        if (isTrigger)
+            return;
+        anim?.StopAnim();
         isTrigger = true;
-        countDownTime = shieldConfig.TimeRemain;
+
+        shieldIconRender.SetActive(false);
+        shieldEffect.gameObject.SetActive(true);
+        shieldEffect.Play();
     }
 
-    protected override void DestroyItem()
+    public override void DestroyItem(bool playDestroyEffect = true)
     {
-        ResetData();
-        itemPool.Return(globalData.SHIELD_ITEM_KEY, this.gameObject);
-    }
-
-    protected override void ResetData()
-    {
-        isTrigger = false;
+        if (playDestroyEffect)
+        {
+            var destroyEffect = effectPool.Rent(((ShieldConfig)itemConfig).EffectShieldDestroyKey);
+            destroyEffect.transform.position = this.transform.position;
+            destroyEffect.SetActive(true);
+        }
+        anim?.StopAnim();
+        base.DestroyItem();
+        Messenger.Default.Publish<DestroyItem>(new DestroyItem() { ItemKey = itemConfig.ItemKey });
     }
 }

@@ -4,40 +4,40 @@ public class JumpPerform : MonoBehaviour
 {
     [SerializeField] protected JumpConfigs jumpData;
     [SerializeField] protected RunConfigs runData;
+    [SerializeField] protected InputDataSO moveInput;
 
     [Space(10), Header("Check")]
     [SerializeField] protected Transform groundCheck;
-
-    protected MoveInput moveInput;
     protected Rigidbody2D rigidBody2D;
 
     protected int extraJumps;
-    protected float extraJumpHeight;
 
-    protected float velocity = 0;
+    protected float yGravity;
 
-    protected virtual void Awake()
+    protected bool jumpInput;
+
+    protected void Awake()
     {
         rigidBody2D = GetComponent<Rigidbody2D>();
-        moveInput = GetComponent<MoveInput>();
+        moveInput.JumpInput += OnJumpClick;
+        yGravity = Physics2D.gravity.y;
     }
 
-    protected virtual void Start()
+    private void OnJumpClick()
     {
-        extraJumpHeight = jumpData.JumpHeight * jumpData.ExtraJumpHeightMulti;
+        jumpInput = true;
+    }
+
+    protected void Start()
+    {
         rigidBody2D.gravityScale = jumpData.GravityScale;
     }
 
-    protected virtual void Update()
+    protected void Update()
     {
         bool previousStatus = jumpData.IsGrounded;
         // check if grounded
         jumpData.IsGrounded = Physics2D.OverlapCircle(groundCheck.position, jumpData.GroundCheckRadius, jumpData.GroundLayer);
-
-        if (jumpData.IsGrounded)
-        {
-            extraJumps = jumpData.ExtraJumpCount;
-        }
 
         if(!previousStatus && jumpData.IsGrounded)
         {
@@ -45,18 +45,19 @@ public class JumpPerform : MonoBehaviour
         }
 
         // Extra jump
-        if (moveInput.JumpInput && extraJumps > 0 && !jumpData.IsGrounded)
+        if (jumpInput && jumpData.IsGrounded)  // Normal jump
         {
-            float velocity = runData.Speed_X_WhenJump * Mathf.Sqrt(jumpData.GravityScale);
-            rigidBody2D.velocity = new Vector2(rigidBody2D.velocity.x, velocity);
-            extraJumps--;
-        }
-        else if (moveInput.JumpInput && jumpData.IsGrounded)  // Normal jump
-        {
-            float velocity = runData.Speed_X_WhenJump * Mathf.Sqrt(jumpData.GravityScale);
-            rigidBody2D.velocity = new Vector2(rigidBody2D.velocity.x, velocity);
+            float velocityY = Mathf.Sqrt(-2 * jumpData.JumpHeight * yGravity * jumpData.GravityScale);
+            rigidBody2D.velocity = new Vector2(rigidBody2D.velocity.x, velocityY);
             jumpData.onStartJump?.Invoke();
+
+            jumpInput = false;
         }
 
+    }
+
+    private void OnDestroy()
+    {
+        moveInput.JumpInput += OnJumpClick;
     }
 }

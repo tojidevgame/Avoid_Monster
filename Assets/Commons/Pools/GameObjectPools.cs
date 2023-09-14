@@ -15,8 +15,10 @@ public struct PoolData
 public class GameObjectPools : BasePool
 {
     [SerializeField] private List<PoolData> poolData;
+    [SerializeField] private int defaultPrewarm = 2;
 
     private Dictionary<string, Queue<GameObject>> pools;
+    private Transform parent;
 
     private GameObject Prefab(string key)
     {
@@ -54,14 +56,36 @@ public class GameObjectPools : BasePool
     {
         try
         {
-            pools.TryGetValue(key, out var pool);
-            var go = (GameObject)obj;
-            go.SetActive(false);
-            pool.Enqueue(go);
+            if (pools == null)
+                pools = new Dictionary<string, Queue<GameObject>>();
+
+            if (pools.TryGetValue(key, out var pool))
+            {
+                var go = (GameObject)obj;
+                go.SetActive(false);
+                pool.Enqueue(go);
+            }
+            else
+            {
+                Queue<GameObject> newPool = new Queue<GameObject>();
+                var go = (GameObject)obj;
+                for (int i = 0; i < defaultPrewarm; i++)
+                {
+                    GameObject newObj = Instantiate(go, parent);
+                    newObj.SetActive(false);
+                    newObj.name = newObj.name + i++;
+                    newPool.Enqueue(newObj);
+                }
+
+                go.SetActive(false);
+                newPool.Enqueue(go);
+
+                pools.Add(key, newPool);
+            }
         }
         catch (Exception e)
         {
-            ConsoleLog.LogError($"Pool with key: {key} was not init" + e);
+            ConsoleLog.LogError($"Pool with key: {key} error when return element" + e);
         }
     }
 
@@ -73,12 +97,11 @@ public class GameObjectPools : BasePool
         foreach (var data in poolData)
         {
             Queue<GameObject> pool = new Queue<GameObject>();
-            int index = 0;
             for (int i = 0; i < data.Prewarms; i++)
             {
                 GameObject obj = Instantiate(data.Prefab, parentRoot);
                 obj.SetActive(false);
-                obj.name = obj.name + index++;
+                obj.name = obj.name + i;
                 pool.Enqueue(obj);
             }
 

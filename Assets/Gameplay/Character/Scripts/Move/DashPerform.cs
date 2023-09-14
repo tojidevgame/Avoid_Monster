@@ -6,7 +6,7 @@ public class DashPerform : MonoBehaviour
     [SerializeField] protected DashConfigs dashData;
     [SerializeField] protected JumpConfigs jumpData;
 
-    protected MoveInput moveInput;
+    protected InputDataSO moveInput;
     protected Rigidbody2D rigidBody2D;
     protected RunPerform runPerform;
 
@@ -16,7 +16,6 @@ public class DashPerform : MonoBehaviour
 
     private void Awake()
     {
-        moveInput = GetComponent<MoveInput>();
         runPerform = GetComponent<RunPerform>();
         rigidBody2D = GetComponent<Rigidbody2D>();
         dashTimeRemain = dashData.DashTimeRemain;
@@ -25,25 +24,25 @@ public class DashPerform : MonoBehaviour
 
     private void Update()
     {
-        if (!dashData.IsDashing && !hasDashedInAir && dashCoolDown <= 0f)
-        {
-            if (moveInput.DashInput)
-            {
-                dashData.IsDashing = true;
+        //if (!dashData.IsDashing && !hasDashedInAir && dashCoolDown <= 0f)
+        //{
+        //    if (moveInput.DashInput)
+        //    {
+        //        dashData.IsDashing = true;
 
-                // if player in air while dashing
-                if (!jumpData.IsGrounded)
-                {
-                    hasDashedInAir = true;
-                }
-            }
-        }
+        //        // if player in air while dashing
+        //        if (!jumpData.IsGrounded)
+        //        {
+        //            hasDashedInAir = true;
+        //        }
+        //    }
+        //}
 
-        dashCoolDown -= Time.deltaTime;
+        //dashCoolDown -= Time.deltaTime;
 
-        // if has dashed in air once but now grounded
-        if (hasDashedInAir && jumpData.IsGrounded)
-            hasDashedInAir = false;
+        //// if has dashed in air once but now grounded
+        //if (hasDashedInAir && jumpData.IsGrounded)
+        //    hasDashedInAir = false;
     }
 
     private void FixedUpdate()

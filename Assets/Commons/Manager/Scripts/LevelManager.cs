@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class LevelManager : MonoSingleton<LevelManager>
+public class LevelManager : MonoBehaviour
 {
     [SerializeField] private Difficulties diffConfigs;
     [SerializeField] private readonly int startScoreAddEnemy = 10;
@@ -14,7 +14,7 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     private void Start()
     {
-        ResetLevel();
+        //ResetLevel();
     }
 
     private void ResetLevel()

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "BombConfig", menuName = "Avoid_Monster/Item/Config Item/BombConfig")]
-public class BombConfig : ScriptableObject
+public class BombConfig : ItemConfigBase
 {
     [SerializeField] private float timeToExpode = 1f;
     [SerializeField] private float rangeExplode = 1f;

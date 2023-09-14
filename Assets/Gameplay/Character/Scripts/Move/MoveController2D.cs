@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D), typeof(MoveInput))]
 public class MoveController2D : MonoBehaviour
 {
     [Header("Move Data")]
@@ -10,7 +9,7 @@ public class MoveController2D : MonoBehaviour
     [SerializeField] protected WallJumpConfigs wallJumpData;
 
     [Space(10), Header("Input")]
-    [SerializeField] protected MoveInput moveInput;
+    [SerializeField] protected InputDataSO moveInput;
 
 
     [Space(10), Header("Check")]
@@ -65,7 +64,6 @@ public class MoveController2D : MonoBehaviour
     public float DashTimeRemain => m_dashTime;
     protected virtual void Start()
     {
-        m_extraJumps = jumpData.ExtraJumpCount;
         m_dashTime = dashData.DashTimeRemain;
         m_dashCooldown = dashData.DashCooldown;
 

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Color
+public enum ColorType
 {
     BLUE,
     GREEN,
@@ -15,7 +15,7 @@ public enum Color
 [Serializable]
 public struct MatData
 {
-    public Color ColorKey;
+    public ColorType ColorKey;
     public Material Material;
 }
 

@@ -12,10 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5adb301c95c405d42a9587e4c4a0a802, type: 3}
   m_Name: Difficulties
   m_EditorClassIdentifier: 
-  difficulties:
-  - MileStoneScore: 0
-    MaxAmountEnemy: 5
-    MaxAmountItem: 6
-  - MileStoneScore: 20
-    MaxAmountEnemy: 6
-    MaxAmountItem: 7
+  difficulties: []
+  jsonData: 

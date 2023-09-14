@@ -1,12 +1,9 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "BombConfig", menuName = "Avoid_Monster/Item/Config Item/ShieldConfig")]
-public class ShieldConfig : ScriptableObject
+[CreateAssetMenu(fileName = "ShieldConfig", menuName = "Avoid_Monster/Item/Config Item/ShieldConfig")]
+public class ShieldConfig : ItemConfigBase
 {
-    [SerializeField] private float timeRemain = 5f;
+    [SerializeField] private string effectShieldDestroyKey;
 
-    public float TimeRemain
-    {
-        get { return timeRemain; } 
-    }
+    public string EffectShieldDestroyKey => effectShieldDestroyKey;
 }
