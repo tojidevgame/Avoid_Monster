@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class HistoryPlayerPosition
 {
-    private float minDistanceToAdd = 0.2f;
-    private int capacity = 500;
+    private int capacity = 3000;
     private Vector2[] historyPos;
 
     private int curPlayerIndex = 0;
@@ -13,9 +12,8 @@ public class HistoryPlayerPosition
     public int CurPlayerIndex { get => curPlayerIndex; }
     public int Capacity { get { return capacity; } }
 
-    public HistoryPlayerPosition(float minDistanceToAdd, Vector2 playerPos)
+    public HistoryPlayerPosition(Vector2 playerPos)
     {
-        this.minDistanceToAdd = minDistanceToAdd;
         historyPos = new Vector2[capacity];
         curPlayerIndex = 0;
         historyPos[0] = playerPos;
@@ -23,7 +21,7 @@ public class HistoryPlayerPosition
 
     public void Add(Vector2 newPos)
     {
-        bool canAdd = Vector2.Distance(newPos, historyPos[curPlayerIndex]) >= minDistanceToAdd;
+        bool canAdd = historyPos[curPlayerIndex] != newPos;
         if (!canAdd)
             return;
         curPlayerIndex++;

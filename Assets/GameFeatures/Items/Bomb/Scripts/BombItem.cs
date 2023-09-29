@@ -1,11 +1,17 @@
+using SuperMaxim.Messaging;
 using UnityEngine;
 
 public class BombItem : ItemBase
 {
+    [Space(12)]
+    [SerializeField] private BasePool effectPool;
     private float countDownTimeExplode;
 
     public override void TriggerItem()
     {
+        if(isTrigger)
+            return;
+        anim?.StopAnim();
         isTrigger = true;
         countDownTimeExplode = ((BombConfig)itemConfig).TimeToExpode;
     }
@@ -13,8 +19,16 @@ public class BombItem : ItemBase
 
     private void Update()
     {
+        countDownTimeExist -= Time.deltaTime;
+
         if (!isTrigger)
+        {
+            if(countDownTimeExist <= 0)
+            {
+                DestroyItem();
+            }
             return;
+        }
 
         countDownTimeExplode -= Time.deltaTime;
         if(countDownTimeExplode <= 0)
@@ -36,11 +50,14 @@ public class BombItem : ItemBase
 
     public override void DestroyItem(bool playDestroyEffect = true)
     {
-        ResetData();
+        // TODO: Play effect
+        anim?.StopAnim();
+        base.DestroyItem();
+        Messenger.Default.Publish<DestroyItem>(new DestroyItem() { ItemKey = itemConfig.ItemKey });
     }
 
-    protected override void ResetData()
+    public override bool IsProtectItem()
     {
-        isTrigger = false;
+        return false;
     }
 }

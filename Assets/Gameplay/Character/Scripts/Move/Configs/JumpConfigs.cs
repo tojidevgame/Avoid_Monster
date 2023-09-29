@@ -9,7 +9,8 @@ public class JumpConfigs : ScriptableObject
 
     [SerializeField] protected float jumpHeight = 12;
     [SerializeField] protected float gravityScale = 12;
-    [SerializeField] protected float groundCheckRadius = 0.1f;
+    [SerializeField] protected float groundCheckSizeX = 0.1f;
+    [SerializeField] protected float groundCheckSizeY = 0.2f;
     [SerializeField] protected LayerMask groundLayer;
     [SerializeField] protected bool canMoveWhenJump = false;
 
@@ -23,7 +24,8 @@ public class JumpConfigs : ScriptableObject
 
     public float JumpHeight { get => jumpHeight; }
     public float GravityScale { get => gravityScale; }
-    public float GroundCheckRadius { get { return groundCheckRadius; } }
+    public float GroundCheckSizeX { get { return groundCheckSizeX; } }
+    public float GroundCheckSizeY { get { return groundCheckSizeY; } }
     public LayerMask GroundLayer { get { return groundLayer; } }
     public bool CanMoveWhenJump { get {  return canMoveWhenJump; } }
 

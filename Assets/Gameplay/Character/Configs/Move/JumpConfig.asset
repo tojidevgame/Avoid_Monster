@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpHeight: 5
   gravityScale: 9
-  groundCheckRadius: 0.1
+  groundCheckSizeX: 1
+  groundCheckSizeY: 0.3
   groundLayer:
     serializedVersion: 2
     m_Bits: 128

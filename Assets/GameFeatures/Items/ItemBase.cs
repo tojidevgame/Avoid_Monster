@@ -37,4 +37,6 @@ public abstract class ItemBase : MonoBehaviour
     {
         isTrigger = false;
     }
+
+    public abstract bool IsProtectItem();
 }

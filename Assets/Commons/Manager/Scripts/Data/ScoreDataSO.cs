@@ -32,4 +32,14 @@ public class ScoreDataSO : ScriptableObject
     {
         score = 0;
     }
+
+    public bool CheckHighScore()
+    {
+        bool result = score > highScore;
+        if (result)
+        {
+            HighScore = score;
+        }
+        return result;
+    }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public struct CoinCollectPayload
 {
-
+    public int AmountCoinCollect;
 }
 
 public class CoinItem : ItemBase
@@ -16,8 +16,11 @@ public class CoinItem : ItemBase
     {
         if (isTrigger)
             return;
+        int score = ((CoinConfig)itemConfig).Score;
 
-        scoreData.AddScore(((CoinConfig)itemConfig).Score);
+        scoreData.AddScore(score);
+
+        Messenger.Default.Publish<CoinCollectPayload>(new CoinCollectPayload { AmountCoinCollect = score });
 
         DestroyItem();
     }
@@ -31,7 +34,10 @@ public class CoinItem : ItemBase
             destroyEffect.SetActive(true);
         }
         base.DestroyItem(playDestroyEffect);
+    }
 
-        Messenger.Default.Publish<CoinCollectPayload>(new CoinCollectPayload());
+    public override bool IsProtectItem()
+    {
+        return false;
     }
 }

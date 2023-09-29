@@ -1,4 +1,5 @@
 using BrunoMikoski.AnimationSequencer;
+using Cysharp.Threading.Tasks;
 using System;
 using UnityEngine;
 
@@ -8,31 +9,50 @@ public class PopupBase : MonoBehaviour
     [SerializeField] protected AnimationSequencerController animGoIn;
     [SerializeField] protected AnimationSequencerController animGoOut;
 
-    [Tooltip("Miliseconds")]
-    protected Action onCloseEvent;
+    [Tooltip("OnCloseEvent")]
+    //protected Action onCloseEvent;
 
+    protected Func<UniTask> onCloseEvent;
+
+    private bool isDoneShow = false;
+    public bool IsDoneShow => isDoneShow;
     protected void OnEnable()
     {
+        ConsoleLog.LogError("Play anim");
         animGoIn.Play(OnShowPopup);
+    }
+
+    public virtual void PreSetupAction()
+    {
+
     }
 
     protected virtual void OnShowPopup()
     {
+        isDoneShow = true;
     }
 
     public virtual void ClosePopup()
     {
-        onCloseEvent?.Invoke();
-        animGoOut.Play(OnClosePopup);
+        animGoOut.Play(async () =>
+        {
+            await OnCloseEvent();
+        });
     }
 
     protected void OnClosePopup()
     {
-        gameObject.SetActive(false);
+        Destroy(this.gameObject);
     }
 
-    public virtual void RegisterOnCloseEvent(Action onCloseEvent)
+    public virtual void RegisterOnCloseEvent(Func<UniTask> onCloseEvent)
     {
         this.onCloseEvent = onCloseEvent;
+    }
+
+    private async UniTask OnCloseEvent()
+    {
+        await UniTask.RunOnThreadPool(onCloseEvent);
+        OnClosePopup();
     }
 }

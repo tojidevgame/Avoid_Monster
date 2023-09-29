@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c01a66836d76dd94cb4081d91c62b804, type: 3}
+  m_Name: LevelDataSO
+  m_EditorClassIdentifier: 
+  scoreDataSO: {fileID: 11400000, guid: 50bf3522626d22347a28b32d2cb69dc2, type: 2}
+  enemyManagerDataSO: {fileID: 11400000, guid: b271b183a0cb32545a08509ea5f24210, type: 2}
+  diffConfigs: {fileID: 11400000, guid: b0bd3da2326c83a4d8566490df5dcf65, type: 2}
+  playerRunConfig: {fileID: 11400000, guid: 705517d85b32a64419cd2bb3dc05682d, type: 2}

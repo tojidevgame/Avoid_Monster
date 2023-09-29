@@ -1,7 +1,5 @@
 using Cysharp.Threading.Tasks;
 using SuperMaxim.Messaging;
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -11,13 +9,8 @@ public class ItemManager : MonoBehaviour
     [SerializeField] private CoinConfig[] coinConfigs;
     [SerializeField] private BasePool itemsPool;
     [SerializeField] private BasePool coinPool;
+    [SerializeField] private LevelDataSO levelDataSO;
 
-    [Header("Test")]
-    [SerializeField] private int maxAmountItem;
-    [SerializeField] private int minItemInOneGen;
-    [SerializeField] private int maxItemInOneGen;
-    [SerializeField] private float minTimeToGenItem;
-    [SerializeField] private float maxTimeToGenItem;
 
     [Header("Data")]
     [SerializeField] private MapDataSO mapDataSO;
@@ -25,9 +18,20 @@ public class ItemManager : MonoBehaviour
     private int curAmountItem;
     private float countDownTimeGenItem;
 
+    private bool isGameOver = false;
+
+    private void Awake()
+    {
+        Messenger.Default.Subscribe<GameOverPayload>(OnGameOver);
+    }
+
+
+
     private async void Start()
     {
-        countDownTimeGenItem = Random.Range(minTimeToGenItem, maxTimeToGenItem);
+        isGameOver = false;
+
+        countDownTimeGenItem = Random.Range(levelDataSO.CurrentDiff.MinTimeToGenItem, levelDataSO.CurrentDiff.MinTimeToGenItem);
         Messenger.Default.Subscribe<DestroyItem>(OnDestroyItem);
         Messenger.Default.Subscribe<CoinCollectPayload>(OnCoinCollected);
 
@@ -37,19 +41,28 @@ public class ItemManager : MonoBehaviour
 
     private void Update()
     {
+        if (isGameOver)
+            return;
+
         countDownTimeGenItem -= Time.deltaTime;
-        if (countDownTimeGenItem <= 0 && curAmountItem < maxAmountItem)
+        if (countDownTimeGenItem <= 0 && curAmountItem < levelDataSO.CurrentDiff.MaxAmountItem)
         {
             GenerateItem();
 
-            countDownTimeGenItem = Random.Range(minTimeToGenItem, maxTimeToGenItem);
+            countDownTimeGenItem = Random.Range(levelDataSO.CurrentDiff.MinTimeToGenItem, levelDataSO.CurrentDiff.MinTimeToGenItem);
         }
+    }
+
+    private void OnDestroy()
+    {
+        Messenger.Default.Unsubscribe<DestroyItem>(OnDestroyItem);
+        Messenger.Default.Unsubscribe<CoinCollectPayload>(OnCoinCollected);
     }
 
 
     public void GenerateItem()
     {
-        int amountItemToGen = Random.Range(minItemInOneGen, maxItemInOneGen + 1);
+        int amountItemToGen = Random.Range(levelDataSO.CurrentDiff.MinItemInOneGen, levelDataSO.CurrentDiff.MaxItemInOneGen + 1);
         for (int i = 0; i < amountItemToGen; i++)
         {
             RandomItem();
@@ -87,6 +100,8 @@ public class ItemManager : MonoBehaviour
 
     private void GenerateCoin()
     {
+        if (isGameOver)
+            return;
         // TODO: Check do kho co cho phep Generate Coin Special khong
 
         // Tam thoi random theo Rate
@@ -120,5 +135,10 @@ public class ItemManager : MonoBehaviour
 
             rate -= coinConfigs[i].RateAppear;
         }
+    }
+
+    private void OnGameOver(GameOverPayload gameOverPayload)
+    {
+        isGameOver = true;
     }
 }

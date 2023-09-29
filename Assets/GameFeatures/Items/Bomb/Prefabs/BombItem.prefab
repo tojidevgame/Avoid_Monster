@@ -27,7 +27,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.22, y: 0.19, z: 1}
+  m_LocalScale: {x: 0.22, y: 0.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5682904571991254191}
@@ -126,6 +126,7 @@ GameObject:
   - component: {fileID: 5682904571991254191}
   - component: {fileID: 4637795653395096196}
   - component: {fileID: 4527617085370631849}
+  - component: {fileID: 5156305629150897222}
   m_Layer: 0
   m_Name: BombItem
   m_TagString: Untagged
@@ -163,7 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distance: {x: 0, y: 1}
-  duration: 0.8
+  duration: 0.2
   ease: 4
 --- !u!114 &4527617085370631849
 MonoBehaviour:
@@ -179,3 +180,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemConfig: {fileID: 11400000, guid: 0f6fe620ed191e543b2b72fc5e390b69, type: 2}
   itemPoolSO: {fileID: 11400000, guid: 42427c6c70c91394485b3fb1e7a0d5db, type: 2}
+  anim: {fileID: 4637795653395096196}
+  effectPool: {fileID: 11400000, guid: 34f114f215f6e6f4a99ec4f11bb5c5a0, type: 2}
+--- !u!58 &5156305629150897222
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2821173222635114114}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.03}
+  serializedVersion: 2
+  m_Radius: 0.59

@@ -12,5 +12,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5adb301c95c405d42a9587e4c4a0a802, type: 3}
   m_Name: Difficulties
   m_EditorClassIdentifier: 
-  difficulties: []
+  difficulties:
+  - MileStoneScore: 0
+    MaxAmountEnemy: 4
+    MinScoreToAddEnemy: 4
+    MaxScoreToAddEnemy: 8
+    MaxAmountItem: 3
+    MinItemInOneGen: 1
+    MaxItemInOneGen: 1
+    MinTimeToGenItem: 8
+    MaxTimeToGenItem: 10
+    AmountHarmfulCanGen: 0
+    MinTimeToPlayHarmful: 0
+    MaxTimeToPlayHarmful: 0
+    PlayerVelocity: 12
+  - MileStoneScore: 50
+    MaxAmountEnemy: 4
+    MinScoreToAddEnemy: 4
+    MaxScoreToAddEnemy: 8
+    MaxAmountItem: 3
+    MinItemInOneGen: 1
+    MaxItemInOneGen: 1
+    MinTimeToGenItem: 8
+    MaxTimeToGenItem: 10
+    AmountHarmfulCanGen: 0
+    MinTimeToPlayHarmful: 0
+    MaxTimeToPlayHarmful: 0
+    PlayerVelocity: 12
   jsonData: 

@@ -23,6 +23,10 @@ public class InputAdapter : MonoBehaviour
 
 #if UNITY_EDITOR
         inputDataSO.HorizontalInput = Input.GetAxis("Horizontal");
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            inputDataSO.JumpInput?.Invoke();
+        }
 #endif
     }
 

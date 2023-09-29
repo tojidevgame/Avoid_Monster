@@ -77,4 +77,9 @@ public class ShieldItem : ItemBase
         base.DestroyItem();
         Messenger.Default.Publish<DestroyItem>(new DestroyItem() { ItemKey = itemConfig.ItemKey });
     }
+
+    public override bool IsProtectItem()
+    {
+        return isTrigger;
+    }
 }

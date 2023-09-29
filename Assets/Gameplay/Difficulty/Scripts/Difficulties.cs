@@ -7,37 +7,18 @@ public class Difficulties : ScriptableObject
 {
     [SerializeField] private Difficulty[] difficulties;
 
-    private int curIndexDiff = 0;
 
-    public Difficulty GetCurDifficulty(int score)
+    public Difficulty GetDifficulty(int level)
     {
-        int diffLength = difficulties.Length;
-        if (score >= difficulties[diffLength - 1].MileStoneScore)
+        try
         {
-            curIndexDiff = diffLength - 1;
-            return difficulties[diffLength - 1];
+            level = Mathf.Clamp(level, 0, difficulties.Length - 1);
+            return difficulties[level];
         }
-
-
-        for (int i = 0; i < diffLength - 1; i++)
+        catch
         {
-            if (score >= difficulties[i].MileStoneScore && score < difficulties[i + 1].MileStoneScore)
-            {
-                curIndexDiff = i;
-                return difficulties[i];
-            }
+            return difficulties[^1];
         }
-
-        curIndexDiff = 0;
-        return difficulties[0];
-    }
-
-    public int MileStoneScoreNextDiff()
-    {
-        if (curIndexDiff >= difficulties.Length - 1)
-            return int.MaxValue;
-
-        return difficulties[curIndexDiff + 1].MileStoneScore;
     }
 
 #if UNITY_EDITOR
@@ -76,7 +57,6 @@ public struct Difficulty
 
     [Space(12)]
     public float PlayerVelocity;
-    public float Enemyvelocity;
 }
 
 

@@ -1,36 +1,25 @@
+using SuperMaxim.Messaging;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    [SerializeField] private Difficulties diffConfigs;
-    [SerializeField] private readonly int startScoreAddEnemy = 10;
-
-
-    private int mileStoneToAddEnemy;
-
-    private Difficulty curDiff;
-
-    public Difficulty CurDiff { get => curDiff;}
+    [SerializeField] private LevelDataSO levelDataSO;
 
     private void Start()
     {
-        //ResetLevel();
+        levelDataSO.ResetLevel();
+        Messenger.Default.Subscribe<CoinCollectPayload>(TryUpdateLevel);
     }
 
-    private void ResetLevel()
+
+
+    private void TryUpdateLevel(CoinCollectPayload payload)
     {
-        mileStoneToAddEnemy = startScoreAddEnemy;
-        curDiff = diffConfigs.GetCurDifficulty(0);
+        levelDataSO.TryUpdateLevel();
     }
 
-    public bool CanAddEnemy(int score)
+    private void OnDestroy()
     {
-        if(score > mileStoneToAddEnemy)
-        {
-            mileStoneToAddEnemy += Random.Range(curDiff.MinScoreToAddEnemy, curDiff.MaxScoreToAddEnemy);
-            return true;
-        }
-        return false;
+        Messenger.Default.Unsubscribe<CoinCollectPayload>(TryUpdateLevel);
     }
-
 }

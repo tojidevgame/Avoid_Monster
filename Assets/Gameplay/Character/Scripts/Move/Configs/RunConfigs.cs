@@ -12,7 +12,11 @@ public class RunConfigs : ScriptableObject
 
     private bool isFacingRight;
     public bool IsFacingRight { get { return isFacingRight; } set { isFacingRight = value; } }
-    public float Speed { get { return speed; } }
+    public float Speed
+    { 
+        get { return speed; }
+        set { speed = value; }
+    }
 
     public void ClearAllAction()
     {

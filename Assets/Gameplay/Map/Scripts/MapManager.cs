@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ public class MapManager : MonoBehaviour
 
     [Space(12)]
     [SerializeField] private PlayerInfo playerInfo;
+
 
     [Space(12)]
     [SerializeField] private List<ItemBoundPosition> itemPositionList;
@@ -25,4 +27,5 @@ public class MapManager : MonoBehaviour
     {
         playerDataSO.AddNewPosOfPlayer();
     }
+
 }

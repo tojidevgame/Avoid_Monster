@@ -73,7 +73,7 @@ public class MoveController2D : MonoBehaviour
     protected virtual void FixedUpdate()
     {
         // check if grounded
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, jumpData.GroundCheckRadius, jumpData.GroundLayer);
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, jumpData.GroundCheckSizeX, jumpData.GroundLayer);
         
         var position = transform.position;
 

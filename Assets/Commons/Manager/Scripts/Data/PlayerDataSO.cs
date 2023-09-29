@@ -5,14 +5,13 @@ public class PlayerDataSO : ScriptableObject
 {
     private PlayerInfo playerInfo;
     private HistoryPlayerPosition historyPos;
-    private float minDistanceToAddPos = 0.2f;
 
     public Transform PlayerTransform => playerInfo.transform;
 
     public void InitData(PlayerInfo playerInfo)
     {
         this.playerInfo = playerInfo;
-        historyPos = new HistoryPlayerPosition(minDistanceToAddPos, playerInfo.transform.position);
+        historyPos = new HistoryPlayerPosition(playerInfo.transform.position);
     }
 
     public void AddNewPosOfPlayer()

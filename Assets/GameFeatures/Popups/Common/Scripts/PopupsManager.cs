@@ -1,10 +1,12 @@
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public enum PopupType
 {
-    Main,
+    StartGame,
+    GameOver,
     Setting,
     Shop
 }
@@ -12,6 +14,7 @@ public class PopupsManager : MonoSingleton<PopupsManager>
 {
     [SerializeField] protected HolderDataPopups popupsDataHolder;
     [SerializeField] protected Transform parentCanvas;
+    [SerializeField] protected GameObject blockRaycast;
 
     protected Dictionary<PopupType, PopupBase> popupsCreated;
 
@@ -20,7 +23,7 @@ public class PopupsManager : MonoSingleton<PopupsManager>
         popupsCreated = new Dictionary<PopupType, PopupBase>();
     }
 
-    public PopupBase ShowPopup(PopupType popupName, Action onCloseEvent = null)
+    public async UniTask<PopupBase> ShowPopup(PopupType popupName, Func<UniTask> onCloseEvent = null)
     {
         try
         {
@@ -33,8 +36,12 @@ public class PopupsManager : MonoSingleton<PopupsManager>
                     ConsoleLog.LogWarning($"Popup {popupName} has already opened");
                     return popupBase;
                 }
+
+                popupBase.PreSetupAction();
+
                 popupBase.gameObject.SetActive(true);
                 popupBase.RegisterOnCloseEvent(onCloseEvent);
+                await UniTask.WaitUntil(() => popupBase.IsDoneShow);
                 return popupBase;
             }
 
@@ -43,8 +50,9 @@ public class PopupsManager : MonoSingleton<PopupsManager>
             GameObject objPopup = Instantiate(popupData.Prefab, parentCanvas);
 
             PopupBase popup = objPopup.GetComponent<PopupBase>();
+            popup.PreSetupAction();
             popup.RegisterOnCloseEvent(onCloseEvent);
-
+            await UniTask.WaitUntil(() => popup.IsDoneShow);
             popupsCreated.Add(popupName, popup);  // Add popup to dictionary
             return popup;
         }
@@ -52,6 +60,10 @@ public class PopupsManager : MonoSingleton<PopupsManager>
         {
             ConsoleLog.LogError($"Popup {popupName} Show Error: " + ex.Message);
             return null;
+        }
+        finally
+        {
+            blockRaycast.SetActive(popupsCreated.Count > 0);
         }
     }
 
@@ -65,6 +77,7 @@ public class PopupsManager : MonoSingleton<PopupsManager>
                 ConsoleLog.LogWarning($"Popup {popupName} has already closed");
                 return;
             }
+            popupsCreated.Remove(popupName);
             popup.ClosePopup();
         }
         catch (Exception ex)
