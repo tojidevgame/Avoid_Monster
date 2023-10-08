@@ -15,7 +15,7 @@
       "hash": "d210e3d76adc0cce77f4ad2af1ade88dad6b1d5a"
     },
     "com.toga.adbase": {
-      "version": "https://github.com/tojidevgame/Ad-Base.git#1.0.15",
+      "version": "https://github.com/tojidevgame/Ad-Base.git#1.0.16",
       "depth": 0,
       "source": "git",
       "dependencies": {
