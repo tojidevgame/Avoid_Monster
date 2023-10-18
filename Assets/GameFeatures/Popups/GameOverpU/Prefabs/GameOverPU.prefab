@@ -756,7 +756,10 @@ MonoBehaviour:
   txtScore: {fileID: 1144886756967877873}
   txtHighScore: {fileID: 1144886758235915830}
   txtNewHighScore: {fileID: 0}
+  btnRestart: {fileID: 1144886757565240823}
+  btnRevive: {fileID: 1144886757065250825}
   scoreDataSO: {fileID: 11400000, guid: 50bf3522626d22347a28b32d2cb69dc2, type: 2}
+  timeToShowStartGamePU: 0
 --- !u!1 &1144886757565240713
 GameObject:
   m_ObjectHideFlags: 0

@@ -23,10 +23,11 @@ public class PopupsManager : MonoSingleton<PopupsManager>
         popupsCreated = new Dictionary<PopupType, PopupBase>();
     }
 
-    public async UniTask<PopupBase> ShowPopup(PopupType popupName, Func<UniTask> onCloseEvent = null)
+    public async UniTask<PopupBase> ShowPopup(PopupType popupName, Action onCloseEvent = null)
     {
         try
         {
+            ConsoleLog.Log("Show Popup");
             // Check if popup is existed in Dictionary
             if (popupsCreated.ContainsKey(popupName))
             {
@@ -41,6 +42,7 @@ public class PopupsManager : MonoSingleton<PopupsManager>
 
                 popupBase.gameObject.SetActive(true);
                 popupBase.RegisterOnCloseEvent(onCloseEvent);
+                popupsCreated.Add(popupName, popupBase);
                 await UniTask.WaitUntil(() => popupBase.IsDoneShow);
                 return popupBase;
             }
@@ -67,16 +69,24 @@ public class PopupsManager : MonoSingleton<PopupsManager>
         }
     }
 
-    public void ClosePopup(PopupType popupName)
+    public void ClosePopup(PopupType popupName, Action onCloseEvent = null)
     {
         try
         {
             popupsCreated.TryGetValue(popupName, out PopupBase popup);
+            if (popup == null)
+            {
+                ConsoleLog.LogError("Popup is not exists");
+                return;
+            }
             if (!popup.gameObject.activeSelf)
             {
                 ConsoleLog.LogWarning($"Popup {popupName} has already closed");
                 return;
             }
+            if (onCloseEvent != null)
+                popup.RegisterOnCloseEvent(onCloseEvent);
+
             popupsCreated.Remove(popupName);
             popup.ClosePopup();
         }

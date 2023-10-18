@@ -14,6 +14,13 @@ public class ScoreView : MonoBehaviour
     private void Awake()
     {
         Messenger.Default.Subscribe<CoinCollectPayload>(UpdateScore);
+        Messenger.Default.Subscribe<StartGamePayload>(ResetScore);
+    }
+
+    private void ResetScore(StartGamePayload payload)
+    {
+        currentScore = 0;
+        txtScore.SetText(currentScore.ToString());
     }
 
     private void UpdateScore(CoinCollectPayload payload)
@@ -27,5 +34,6 @@ public class ScoreView : MonoBehaviour
     private void OnDestroy()
     {
         Messenger.Default.Unsubscribe<CoinCollectPayload>(UpdateScore);
+        Messenger.Default.Unsubscribe<StartGamePayload>(ResetScore);
     }
 }

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7f5f29b27556694587b28527b516350, type: 3}
+  m_Name: CommonMaxMediationAdFactory
+  m_EditorClassIdentifier: 
+  _maxMediationSDKKey: ZMB9hwy933hXfIKCSoHO68stGNMGKs3RAnvCpW4HnoIpCRJmk8M1FfLzy_eZ1E5gDwgGR3J3e8UaxA9d8HLGze
+  _arrSupportedPlaformAdUnitKeys:
+  - _adPlatform: 1
+    _maxMediationBannerID: 
+    _maxMediationInterstitialID: 225451b6222c64c3
+    _maxMediationRewardID: 8b055dc0aad794a3
+  _editorAdUnitKeys:
+    _adPlatform: 0
+    _maxMediationBannerID: 
+    _maxMediationInterstitialID: 225451b6222c64c3
+    _maxMediationRewardID: 8b055dc0aad794a3

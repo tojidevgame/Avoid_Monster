@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using SuperMaxim.Messaging;
 using UnityEngine;
 
@@ -17,7 +18,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Vector3 originalPosPlayer;
 
     [Space(12)]
-    [SerializeField] private InputManager inputManager;
+    [SerializeField] private GameObject ingameUI;
 
     [Space(12), Header("Data")]
     [SerializeField] private ScoreDataSO scoreDataSO;
@@ -44,18 +45,10 @@ public class GameManager : MonoBehaviour
 
     private async void Start()
     {
-        await PopupsManager.Instance.ShowPopup(PopupType.StartGame, async () =>
+        await PopupsManager.Instance.ShowPopup(PopupType.StartGame, () =>
         {
             Messenger.Default.Publish<StartGamePayload>(new StartGamePayload());
         });
-    }
-
-    private void Update()
-    {
-#if UNITY_EDITOR
-        if (Input.GetKeyDown(KeyCode.M))
-            PopupsManager.Instance.ShowPopup(PopupType.StartGame).Forget();
-#endif
     }
 
     private void OnDestroy()
@@ -63,14 +56,44 @@ public class GameManager : MonoBehaviour
         Messenger.Default.Unsubscribe<GameOverPayload>(OnGameOver);
         Messenger.Default.Unsubscribe<StartGamePayload>(OnStartGame);
     }
+    #endregion
+
+    #region ON_START_GAME
+
+    // Start: Clear Enemy -> Clear Item -> MoveCameraToZero -> Enable Player
+    private void OnStartGame(StartGamePayload payload)
+    {
+        isGameOver = false;
+        enemyDataSO.ClearAllEnemy();
+
+        playerRigid.transform.DOMove(originalPosPlayer, 0.5f).OnComplete(() =>
+        {
+            ConsoleLog.LogError("On Start Game");
+            StartGameplay();
+        });
+    }
+
+    private async UniTask EnablePlayer()
+    {
+        playerRigid.position = originalPosPlayer;
+        playerRigid.gameObject.SetActive(true);
+        await UniTask.Delay(timeToEnablePhysic);
+
+        playerRigid.bodyType = RigidbodyType2D.Dynamic;
+    }
+
+    private async void StartGameplay()
+    {
+        await EnablePlayer();
+        SetActiveInput(true);
+    }
 
     #endregion
 
 
 
-
-
     #region ON_GAME_OVER
+    // Game Over: DisableInput -> Disable Player -> StopEnemyMove -> ShowPU
     private async void OnGameOver(GameOverPayload payload)
     {
         if (isGameOver)
@@ -80,6 +103,7 @@ public class GameManager : MonoBehaviour
 
 
         SetActiveInput(false);
+        DisablePlayer();
         StopAllMovement();
 
         await UniTask.Delay(timeDelayShowGameOverPU);
@@ -95,21 +119,10 @@ public class GameManager : MonoBehaviour
 
 
 
-
-
-    #region ON_START_GAME
-    private void OnStartGame(StartGamePayload payload)
+    #region COMMON_FUNCTION
+    private void SetActiveInput(bool isActive)
     {
-        ConsoleLog.LogError("On Start Game");
-        isGameOver = false;
-        StartGameplay();
-    }
-
-    private async void ClearGame()
-    {
-        await PopupsManager.Instance.ShowPopup(PopupType.StartGame);
-        //TODO: Wait to showed PU endgame
-        enemyDataSO.ClearAllEnemy();
+        ingameUI.SetActive(isActive);
     }
 
     private void DisablePlayer()
@@ -117,32 +130,6 @@ public class GameManager : MonoBehaviour
         // Setup Player
         playerRigid.bodyType = RigidbodyType2D.Kinematic;
         playerRigid.gameObject.SetActive(false);
-    }
-
-    private async UniTask EnablePlayer()
-    {
-        playerRigid.position = originalPosPlayer;
-        //playerSpawnEffect?.Play();
-        playerRigid.gameObject.SetActive(true);
-        await UniTask.Delay(timeToEnablePhysic);
-
-        playerRigid.bodyType = RigidbodyType2D.Dynamic;
-    }
-
-    private async void StartGameplay()
-    {
-        await EnablePlayer();
-        SetActiveInput(true);
-    }
-
-
-    #endregion
-
-    #region COMMON_FUNCTION
-    private void SetActiveInput(bool isActive)
-    {
-        inputManager.gameObject.SetActive(isActive);
-        inputManager.BlockInput(isActive);
     }
     #endregion
 

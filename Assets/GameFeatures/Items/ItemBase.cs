@@ -22,6 +22,7 @@ public abstract class ItemBase : MonoBehaviour
 
     public ItemConfigBase ItemConfig => itemConfig;
 
+
     public virtual void SetupData(ItemBoundPosition itemBound)
     {
         this.itemBoundPosition = itemBound;
@@ -30,7 +31,7 @@ public abstract class ItemBase : MonoBehaviour
     public virtual void DestroyItem(bool playDestroyEffect = true)
     {
         ResetData();
-        itemBoundPosition.ReturnToPool();
+        itemBoundPosition?.ReturnToPool();
         itemPoolSO.Return(itemConfig.ItemKey, this.gameObject);
     }
     protected virtual void ResetData()
@@ -39,4 +40,6 @@ public abstract class ItemBase : MonoBehaviour
     }
 
     public abstract bool IsProtectItem();
+
+
 }

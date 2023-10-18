@@ -1,3 +1,4 @@
+using SuperMaxim.Messaging;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,7 +15,15 @@ public class StartGamePU : PopupBase
     {
         btnPlay.onClick.AddListener(() =>
         {
-            PopupsManager.Instance.ClosePopup(PopupType.StartGame);
+            PopupsManager.Instance.ClosePopup(PopupType.StartGame, () =>
+            {
+                Messenger.Default.Publish<StartGamePayload>(new StartGamePayload());
+            });
         });
+    }
+
+    private void OnDestroy()
+    {
+        btnPlay.onClick.RemoveAllListeners();
     }
 }

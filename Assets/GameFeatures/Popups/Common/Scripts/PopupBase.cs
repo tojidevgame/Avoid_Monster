@@ -1,6 +1,7 @@
 using BrunoMikoski.AnimationSequencer;
 using Cysharp.Threading.Tasks;
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PopupBase : MonoBehaviour
@@ -12,7 +13,7 @@ public class PopupBase : MonoBehaviour
     [Tooltip("OnCloseEvent")]
     //protected Action onCloseEvent;
 
-    protected Func<UniTask> onCloseEvent;
+    protected Action onCloseEvent;
 
     private bool isDoneShow = false;
     public bool IsDoneShow => isDoneShow;
@@ -34,9 +35,9 @@ public class PopupBase : MonoBehaviour
 
     public virtual void ClosePopup()
     {
-        animGoOut.Play(async () =>
+        animGoOut.Play(() =>
         {
-            await OnCloseEvent();
+            OnCloseEvent();
         });
     }
 
@@ -45,14 +46,14 @@ public class PopupBase : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    public virtual void RegisterOnCloseEvent(Func<UniTask> onCloseEvent)
+    public virtual void RegisterOnCloseEvent(Action onCloseEvent)
     {
         this.onCloseEvent = onCloseEvent;
     }
 
-    private async UniTask OnCloseEvent()
+    private void OnCloseEvent()
     {
-        await UniTask.RunOnThreadPool(onCloseEvent);
+        onCloseEvent?.Invoke();
         OnClosePopup();
     }
 }

@@ -12,6 +12,22 @@ public class CoinItem : ItemBase
     [Space(12)]
     [SerializeField] private BasePool effectPool;
 
+    private void Awake()
+    {
+        Messenger.Default.Subscribe<GameOverPayload>(OnGameOver);
+    }
+
+
+    private void OnDestroy()
+    {
+        Messenger.Default.Unsubscribe<GameOverPayload>(OnGameOver);
+    }
+
+    private void OnGameOver(GameOverPayload gameOverPayload)
+    {
+        DestroyItem(false);
+    }
+
     public override void TriggerItem()
     {
         if (isTrigger)
@@ -20,13 +36,14 @@ public class CoinItem : ItemBase
 
         scoreData.AddScore(score);
 
-        Messenger.Default.Publish<CoinCollectPayload>(new CoinCollectPayload { AmountCoinCollect = score });
-
         DestroyItem();
+
+        Messenger.Default.Publish<CoinCollectPayload>(new CoinCollectPayload { AmountCoinCollect = score });
     }
 
     public override void DestroyItem(bool playDestroyEffect = true)
     {
+        ConsoleLog.Log($"Destroy item: {playDestroyEffect}");
         if (playDestroyEffect)
         {
             var destroyEffect = effectPool.Rent(((CoinConfig)itemConfig).EffectCoinDestroyKey);

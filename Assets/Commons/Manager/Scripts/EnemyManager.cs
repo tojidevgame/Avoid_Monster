@@ -15,17 +15,6 @@ public class EnemyManager : MonoBehaviour
         enemyDataManagerSO.CreateEnemy();
     }
 
-
-    private void Update()
-    {
-#if UNITY_EDITOR
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            enemyDataManagerSO.CreateEnemy();
-        }
-#endif
-    }
-
     private void OnDestroy()
     {
         Messenger.Default.Unsubscribe<CoinCollectPayload>(CreateEnemy);

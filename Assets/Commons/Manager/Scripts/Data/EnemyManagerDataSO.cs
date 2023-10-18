@@ -13,21 +13,14 @@ public class EnemyManagerDataSO : ScriptableObject
     [SerializeField] private int gapBetweenTwoIndex = 10;
     [SerializeField] private int gapBetweenFirstEnemyWithPlayer = 20;
 
-    private List<EnemyFollow> enemies = new List<EnemyFollow>();
+    private List<EnemyFollow> enemiesActive = new List<EnemyFollow>();
 
-    public int AmountEnemy => enemies.Count;
-
-    public void KillEnemy(GameObject enemy)
-    {
-        enemies.Remove(enemy.GetComponent<EnemyFollow>());
-        enemyPool.Return(globalData.ENEMY_KEY, enemy);
-
-        //TODO: Effect here
-    }
+    public int AmountEnemy => enemiesActive.Count;
 
     public void KillEnemy(EnemyFollow enemyObj)
     {
-        enemies.Remove(enemyObj);
+        int index = enemiesActive.IndexOf(enemyObj);
+        enemiesActive.Remove(enemyObj);
         enemyPool.Return(globalData.ENEMY_KEY, enemyObj.gameObject);
 
         //TODO: Effect here
@@ -35,9 +28,10 @@ public class EnemyManagerDataSO : ScriptableObject
 
     public void ClearAllEnemy()
     {
-        for(int i = 0; i < enemies.Count; i++)
+        while(enemiesActive.Count > 0)
         {
-            KillEnemy(enemies[i]);
+            KillEnemy(enemiesActive[^1]);
+
         }
     }
 
@@ -51,8 +45,8 @@ public class EnemyManagerDataSO : ScriptableObject
 
 
         int newEnemyIndex = 0;
-        if (enemies.Count > 0)
-            newEnemyIndex = enemies[enemies.Count - 1].Index - gapBetweenTwoIndex;
+        if (enemiesActive.Count > 0)
+            newEnemyIndex = enemiesActive[enemiesActive.Count - 1].Index - gapBetweenTwoIndex;
         else
             newEnemyIndex = playerDataSO.CurrentPlayerIndex() - gapBetweenFirstEnemyWithPlayer;
         playerDataSO.ClampEnemyIndex(ref newEnemyIndex);
@@ -65,14 +59,14 @@ public class EnemyManagerDataSO : ScriptableObject
         enemyObj.SetActive(true);
 
 
-        enemies.Add(enemyFollow);
+        enemiesActive.Add(enemyFollow);
     }
 
     public void StopAllEnemy()
     {
-        for (int i = 0; i < enemies.Count; i++)
+        for (int i = 0; i < enemiesActive.Count; i++)
         {
-            enemies[i].SetMoveAbility(false);
+            enemiesActive[i].SetMoveAbility(false);
         }
     }
 }

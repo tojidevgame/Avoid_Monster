@@ -12,8 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3384b49b8ed4d84baa75f5c3a4003f9, type: 3}
   m_Name: ItemPools
   m_EditorClassIdentifier: 
-  poolData:
-  - Key: pool_shield_item_key
-    Prefab: {fileID: 5492556378636154631, guid: f36df32eb2cadee419637c4d737cbeeb, type: 3}
-    Prewarms: 3
+  poolData: []
   defaultPrewarm: 2

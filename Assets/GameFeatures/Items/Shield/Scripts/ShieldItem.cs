@@ -17,6 +17,18 @@ public class ShieldItem : ItemBase
     private float countDownTimeRemain;
 
 
+    private void Awake()
+    {
+        Messenger.Default.Subscribe<GameOverPayload>(OnGameOver);
+    }
+
+
+    private void OnGameOver(GameOverPayload gameOverPayload)
+    {
+        DestroyItem(false);
+    }
+
+
     private void Update()
     {
         countDownTimeExist -= Time.deltaTime;
@@ -40,6 +52,12 @@ public class ShieldItem : ItemBase
         {
             DestroyItem();
         }
+    }
+
+
+    private void OnDestroy()
+    {
+        Messenger.Default.Unsubscribe<GameOverPayload>(OnGameOver);
     }
 
     public override void SetupData(ItemBoundPosition itemBound)

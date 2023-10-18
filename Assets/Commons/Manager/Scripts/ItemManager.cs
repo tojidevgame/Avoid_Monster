@@ -23,20 +23,17 @@ public class ItemManager : MonoBehaviour
     private void Awake()
     {
         Messenger.Default.Subscribe<GameOverPayload>(OnGameOver);
+        Messenger.Default.Subscribe<StartGamePayload>(OnStartGame);
+        Messenger.Default.Subscribe<DestroyItem>(OnDestroyItem);
+        Messenger.Default.Subscribe<CoinCollectPayload>(OnCoinCollected);
     }
 
 
 
-    private async void Start()
+    private void Start()
     {
         isGameOver = false;
-
         countDownTimeGenItem = Random.Range(levelDataSO.CurrentDiff.MinTimeToGenItem, levelDataSO.CurrentDiff.MinTimeToGenItem);
-        Messenger.Default.Subscribe<DestroyItem>(OnDestroyItem);
-        Messenger.Default.Subscribe<CoinCollectPayload>(OnCoinCollected);
-
-        await UniTask.WaitUntil(() => mapDataSO.IsDoneInit);
-        GenerateCoin();
     }
 
     private void Update()
@@ -45,7 +42,7 @@ public class ItemManager : MonoBehaviour
             return;
 
         countDownTimeGenItem -= Time.deltaTime;
-        if (countDownTimeGenItem <= 0 && curAmountItem < levelDataSO.CurrentDiff.MaxAmountItem)
+        if (countDownTimeGenItem <= 0 && curAmountItem < levelDataSO.CurrentDiff.MaxAmountItem && itemsConfigBase.Length > 0)
         {
             GenerateItem();
 
@@ -57,6 +54,8 @@ public class ItemManager : MonoBehaviour
     {
         Messenger.Default.Unsubscribe<DestroyItem>(OnDestroyItem);
         Messenger.Default.Unsubscribe<CoinCollectPayload>(OnCoinCollected);
+        Messenger.Default.Unsubscribe<StartGamePayload>(OnStartGame);
+        Messenger.Default.Unsubscribe<GameOverPayload>(OnGameOver);
     }
 
 
@@ -91,6 +90,7 @@ public class ItemManager : MonoBehaviour
     private void OnDestroyItem(DestroyItem payload)
     {
         curAmountItem--;
+        curAmountItem = curAmountItem < 0 ? 0 : curAmountItem;
     }
 
     private void OnCoinCollected(CoinCollectPayload payload)
@@ -100,6 +100,7 @@ public class ItemManager : MonoBehaviour
 
     private void GenerateCoin()
     {
+        ConsoleLog.Log($"Generate Coin {isGameOver}");
         if (isGameOver)
             return;
         // TODO: Check do kho co cho phep Generate Coin Special khong
@@ -120,8 +121,12 @@ public class ItemManager : MonoBehaviour
             {
                 ItemBase item = coinPool.Rent(coinConfigs[i].ItemKey).GetComponent<ItemBase>();
                 ItemBoundPosition boundPosition = mapDataSO.RandomItemBoundPosition();
-                if(boundPosition == null)
-                    itemsPool.Return(item.ItemConfig.ItemKey, item.gameObject);
+                if (boundPosition == null)
+                {
+                    ConsoleLog.LogError("Not enough bound position");
+                    item.DestroyItem(false);
+                }
+                //itemsPool.Return(item.ItemConfig.ItemKey, item.gameObject);
 
                 //Set position for item
                 item.transform.position = boundPosition.RandomPosition();
@@ -140,5 +145,11 @@ public class ItemManager : MonoBehaviour
     private void OnGameOver(GameOverPayload gameOverPayload)
     {
         isGameOver = true;
+    }
+
+    private void OnStartGame(StartGamePayload startGamePayload)
+    {
+        isGameOver = false;
+        GenerateCoin();
     }
 }

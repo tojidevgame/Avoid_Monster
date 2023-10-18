@@ -1,6 +1,8 @@
 
+using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameOverPU : PopupBase
 {
@@ -13,8 +15,22 @@ public class GameOverPU : PopupBase
     [Space(12), Header("New High Score Game Over")]
     [SerializeField] private TextMeshProUGUI txtNewHighScore;
 
+    [Space(12)]
+    [SerializeField] private Button btnRestart;
+    [SerializeField] private Button btnRevive;
+
     [Space(12), Header("Data")]
     [SerializeField] private ScoreDataSO scoreDataSO;
+
+    [SerializeField] private int timeToShowStartGamePU;
+
+    private void Awake()
+    {
+        btnRestart.onClick.AddListener(OnRestart);
+        btnRevive.onClick.AddListener(OnRevive);
+    }
+
+
     public override void PreSetupAction()
     {
         base.PreSetupAction();
@@ -32,5 +48,30 @@ public class GameOverPU : PopupBase
             txtScore.SetText(scoreData.Score.ToString());
             txtHighScore.SetText(scoreData.HighScore.ToString());
         }
+    }
+
+    private async void OnRestart()
+    {
+        PopupsManager.Instance.ClosePopup(PopupType.GameOver);
+        await UniTask.Delay(timeToShowStartGamePU);
+        PopupsManager.Instance.ShowPopup(PopupType.StartGame).Forget();
+    }
+
+    private void OnRevive()
+    {
+        // Revive
+        AdManager.Instance.ShowRewardedAd( async () =>
+        {
+            ConsoleLog.Log("Revive");
+            PopupsManager.Instance.ClosePopup(PopupType.GameOver);
+            await UniTask.Delay(timeToShowStartGamePU);
+            PopupsManager.Instance.ShowPopup(PopupType.StartGame).Forget();
+        });
+    }
+
+    private void OnDestroy()
+    {
+        btnRestart.onClick.RemoveAllListeners();
+        btnRevive.onClick.RemoveAllListeners();
     }
 }

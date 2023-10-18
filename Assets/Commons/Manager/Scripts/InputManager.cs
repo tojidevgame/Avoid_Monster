@@ -5,10 +5,5 @@ using UnityEngine.UI;
 
 public class InputManager : MonoBehaviour
 {
-    [SerializeField] private Image blockInput;
 
-    public void BlockInput(bool block)
-    {
-        blockInput.gameObject.SetActive(block);
-    }
 }
